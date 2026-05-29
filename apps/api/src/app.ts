@@ -1,8 +1,8 @@
-import cors from 'cors';
-import express from 'express';
+import cors from "cors";
+import express from "express";
 
-import healthRouter from './routes/health';
-import versionRouter from './routes/version'; // Register the version route alongside the existing health route.
+import healthRouter from "./routes/health";
+import versionRouter from "./routes/version"; // Register the version route alongside the existing health route.
 
 const app = express();
 
