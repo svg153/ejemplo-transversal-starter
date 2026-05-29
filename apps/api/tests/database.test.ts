@@ -46,10 +46,12 @@ describe("initializeDatabase", () => {
       } // Finish the failure branch.
     }); // Finish the runMigrations mock.
 
-    const destroySpy = jest.spyOn(appDataSource, "destroy").mockImplementation(async () => {
-      // Simulate TypeORM tearing the connection back down.
-      initialized = false; // Reset the initialization flag so retries start fresh.
-    }); // Finish the destroy mock.
+    const destroySpy = jest
+      .spyOn(appDataSource, "destroy")
+      .mockImplementation(async () => {
+        // Simulate TypeORM tearing the connection back down.
+        initialized = false; // Reset the initialization flag so retries start fresh.
+      }); // Finish the destroy mock.
 
     await expect(initializeDatabase()).rejects.toThrow("migration failed"); // Ensure the first startup attempt still surfaces the migration error.
     await expect(initializeDatabase()).resolves.toBe(appDataSource); // Ensure the retry fully reinitializes and succeeds.
