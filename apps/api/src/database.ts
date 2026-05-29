@@ -17,6 +17,16 @@ export const appDataSource = new DataSource({
 
 let initializationPromise: Promise<DataSource> | null = null; // Cache in-flight initialization to avoid duplicate startup work.
 
+async function resetDataSourceAfterInitializationFailure(): Promise<void> {
+  // Tear down a partially initialized data source after startup fails.
+  if (!appDataSource.isInitialized) {
+    // Skip cleanup when the data source never reached the initialized state.
+    return; // Nothing to destroy when initialization did not complete.
+  } // Finish the cleanup guard.
+
+  await appDataSource.destroy(); // Force the next retry to start from a fresh TypeORM connection state.
+} // Export-free helper for failed startup cleanup.
+
 export function initializeDatabase(): Promise<DataSource> {
   // Initialize the data source and run pending migrations once.
   if (appDataSource.isInitialized) {
@@ -38,7 +48,10 @@ export function initializeDatabase(): Promise<DataSource> {
         // Reset the cached promise when startup fails.
         initializationPromise = null; // Allow a later retry after a failed initialization attempt.
 
-        throw error; // Re-throw the original startup failure.
+        return resetDataSourceAfterInitializationFailure().then(() => {
+          // Clean up partial initialization state before surfacing the error.
+          throw error; // Re-throw the original startup failure after teardown completes.
+        }); // Finish the partial-initialization cleanup path.
       }); // Finish the cached initialization promise.
   } // Finish the first-call guard.
 

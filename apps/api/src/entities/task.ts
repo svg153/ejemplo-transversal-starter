@@ -12,7 +12,7 @@ export interface TaskEntity {
   priority: string; // Persist the current task priority.
   createdAt: Date; // Track when the row was created.
   updatedAt: Date; // Track when the row was last updated.
-  user: UserEntity; // Expose the owning user relation for future backend work.
+  user?: UserEntity; // Expose the owning user relation as optional because TypeORM may omit unloaded relations.
 } // Finish the task entity contract.
 
 export const TaskEntitySchema = new EntitySchema<TaskEntity>({
