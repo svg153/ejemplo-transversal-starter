@@ -1,0 +1,46 @@
+{
+  "agents": {
+    "ripley": {
+      "persistent_name": "Ripley",
+      "universe": "Alien",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "dallas": {
+      "persistent_name": "Dallas",
+      "universe": "Alien",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "parker": {
+      "persistent_name": "Parker",
+      "universe": "Alien",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "lambert": {
+      "persistent_name": "Lambert",
+      "universe": "Alien",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "scribe": {
+      "persistent_name": "Scribe",
+      "universe": "system",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "ralph": {
+      "persistent_name": "Ralph",
+      "universe": "system",
+      "created_at": "2026-05-29",
+      "legacy_named": false,
+      "status": "active"
+    }
+  }
+}

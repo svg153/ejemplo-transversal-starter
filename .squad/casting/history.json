@@ -1,0 +1,19 @@
+{
+  "universe_usage_history": [
+    {
+      "assignment_id": "2026-05-29-initial-team",
+      "created_at": "2026-05-29",
+      "universe": "Alien"
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "2026-05-29-initial-team": {
+      "members": [
+        "Ripley",
+        "Dallas",
+        "Parker",
+        "Lambert"
+      ]
+    }
+  }
+}
