@@ -14,7 +14,12 @@
     "migration:run": "typeorm migration:run -d src/database.ts",
     "migration:generate": "typeorm migration:generate -d src/database.ts"
   },
-  "keywords": ["express", "typescript", "api", "task-tracker"],
+  "keywords": [
+    "express",
+    "typescript",
+    "api",
+    "task-tracker"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
