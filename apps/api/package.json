@@ -1,0 +1,46 @@
+{
+  "name": "task-tracker-api",
+  "version": "0.1.0",
+  "description": "Backend API para Task Tracker Pro",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "ts-node src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "migration:run": "typeorm migration:run -d src/database.ts",
+    "migration:generate": "typeorm migration:generate -d src/database.ts"
+  },
+  "keywords": ["express", "typescript", "api", "task-tracker"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1",
+    "typeorm": "^1.0.0",
+    "pg": "^8.20.0",
+    "jsonwebtoken": "^9.0.3",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/cors": "^2.8.19",
+    "@types/node": "^25.5.2",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/bcrypt": "^6.0.0",
+    "typescript": "^6.0.2",
+    "ts-node": "^10.9.2",
+    "jest": "^30.3.0",
+    "@types/jest": "^30.0.0",
+    "ts-jest": "^29.4.9",
+    "eslint": "^9.39.4",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.8.1"
+  }
+}

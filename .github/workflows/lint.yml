@@ -1,0 +1,49 @@
+name: Lint
+
+on:
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - "apps/web/**"
+      - "eslint.config.mjs"
+      - "package.json"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+
+jobs:
+  lint-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm install
+      - run: cd apps/api && npm run lint
+        continue-on-error: false
+
+  lint-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm install
+      - run: cd apps/web && npm run lint
+        continue-on-error: false
+
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm install
+      - run: npx prettier --check "apps/**/*.{ts,tsx,json}"
+        continue-on-error: false

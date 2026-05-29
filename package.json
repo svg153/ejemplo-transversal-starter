@@ -1,0 +1,32 @@
+{
+  "name": "task-tracker-pro",
+  "version": "0.1.0",
+  "description": "Proyecto transversal para aprender IA + desarrollo senior",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "docker compose up -d",
+    "down": "docker compose down",
+    "logs": "docker compose logs -f",
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces",
+    "test": "npm run test --workspaces",
+    "build": "npm run build --workspaces",
+    "smoke": "bash ./scripts/smoke-compose.sh"
+  },
+  "keywords": [
+    "copilot",
+    "ia",
+    "educacion",
+    "fullstack"
+  ],
+  "author": "Curso IA Senior",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "globals": "^17.4.0"
+  }
+}
