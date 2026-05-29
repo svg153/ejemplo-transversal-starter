@@ -11,8 +11,8 @@
     "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\"",
-    "migration:run": "typeorm migration:run -d src/database.ts",
-    "migration:generate": "typeorm migration:generate -d src/database.ts"
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database.ts",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate src/migrations/GeneratedMigration -d src/database.ts"
   },
   "keywords": ["express", "typescript", "api", "task-tracker"],
   "author": "",

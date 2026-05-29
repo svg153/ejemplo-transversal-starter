@@ -4,10 +4,10 @@
 
 ## Qué hace hoy, sin humo ni espejos
 
-- La app backend expone **un único endpoint real**: [`GET /api/health`](../apps/api/src/routes/health.ts).
+- La app backend expone **dos endpoints reales**: [`GET /api/health`](../apps/api/src/routes/health.ts) y [`GET /api/version`](../apps/api/src/routes/version.ts).
 - La app web renderiza **una pantalla placehold<er** en [`apps/web/src/App.tsx`](../apps/web/src/App.tsx).
 - `docker-compose.yml` levanta **web + api + postgres** para desarrollo local.
-- La base de datos existe en el runtime local, pero **el código actual del API no la usa todavía**.
+- El código actual del API **ya inicializa TypeORM** y consulta PostgreSQL para informar el estado de salud.
 - Hay tests mínimos para comprobar que el starter responde y renderiza.
 
 ## Vista de contexto
@@ -36,7 +36,7 @@ flowchart LR
 
 - El **usuario real ahora mismo** es quien desarrolla o sigue el curso.
 - La **web no consume el API automáticamente**: solo muestra la URL configurada del healthcheck.
-- El **API no consulta PostgreSQL** todavía, aunque el contenedor y la variable `DATABASE_URL` ya están preparados.
+- El **API sí consulta PostgreSQL** durante el arranque y en el health check para reflejar la disponibilidad de la base de datos.
 
 ## Contenedores del sistema
 
@@ -65,12 +65,12 @@ flowchart TB
 
 - **Web (`apps/web`)**: servidor de desarrollo Vite en `5173`.
 - **API (`apps/api`)**: servidor Express en `3000`.
-- **DB (`postgres:16`)**: contenedor disponible para ejercicios posteriores; inicializa `infra/postgres/init.sql`.
+- **DB (`postgres:16`)**: contenedor usado por el API; inicializa `pgcrypto` y deja el esquema a cargo de las migraciones de TypeORM.
 - **Smoke test**: levanta todo con Compose y espera respuesta tanto de la web como del healthcheck.
 
 ## Componentes internos del API
 
-La estructura real del backend es muy pequeña a propósito: una app Express con middleware básico y una ruta de salud.
+La estructura real del backend sigue siendo pequeña a propósito: una app Express con middleware básico, una ruta de versión, una ruta de salud y una capa mínima de persistencia con TypeORM.
 
 ```mermaid
 flowchart TD
@@ -80,20 +80,22 @@ flowchart TD
         cors[cors()]
         json[express.json()]
         router[healthRouter]
-        handler[GET /api/health\nresponde status ok]
+        handler[GET /api/health\nresponde estado API + DB]
     end
 
-    config[config.ts\nhost, port, apiBasePath] --> main
+    config[config.ts\nhost, port, apiBasePath, database] --> main
+    dataSource[database.ts\nTypeORM DataSource] --> main
     config --> router
     app --> cors --> json --> router --> handler
+    dataSource --> handler
 ```
 
 ### Interacciones reales del API
 
-1. [`src/main.ts`](../apps/api/src/main.ts) arranca el servidor con `config.host` y `config.port`.
+1. [`src/main.ts`](../apps/api/src/main.ts) intenta inicializar la base de datos y luego arranca el servidor con `config.host` y `config.port`.
 2. [`src/app.ts`](../apps/api/src/app.ts) monta `cors`, `express.json()` y el router de health.
-3. [`src/routes/health.ts`](../apps/api/src/routes/health.ts) registra `GET /api/health` usando `config.apiBasePath`.
-4. La respuesta es siempre `200` con `{ "status": "ok" }`.
+3. [`src/routes/health.ts`](../apps/api/src/routes/health.ts) registra `GET /api/health` usando `config.apiBasePath` y delega la comprobación de base de datos a un servicio.
+4. La respuesta es `200` con `{ "status": "ok", "database": "connected" }` cuando PostgreSQL está disponible, o `503` con `{ "status": "error", "database": "disconnected" }` cuando no lo está.
 
 ## Componentes internos del frontend
 

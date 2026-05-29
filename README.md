@@ -8,17 +8,17 @@
 Es la base del curso *"IA Aplicada para Developers Senior"*. Cada técnica que aprendes en las sesiones se aplica aquí:
 
 | Sesión | Técnica | Qué haces en el proyecto |
-|--------|---------|-------------------------|
-| 01-02  | Prompting avanzado | Generas boilerplate de API REST con Copilot |
-| 02     | Code review asistido | Evalúas PRs con Copilot CLI |
-| 03     | Automatización CI/CD | GitHub Actions con tests + deploy |
-| 04     | Arquitectura & docs | C4 diagrams + ADRs |
-| 05     | MCP | Servidor MCP que expone tu contexto de proyecto |
-| 07     | Adopción en equipo | Flujo completo + checklist |
+| ------- | -------- | ------------------------- |
+| 01-02 | Prompting avanzado | Generas boilerplate de API REST con Copilot |
+| 02 | Code review asistido | Evalúas PRs con Copilot CLI |
+| 03 | Automatización CI/CD | GitHub Actions con tests + deploy |
+| 04 | Arquitectura & docs | C4 diagrams + ADRs |
+| 05 | MCP | Servidor MCP que expone tu contexto de proyecto |
+| 07 | Adopción en equipo | Flujo completo + checklist |
 
 ## Estructura del proyecto
 
-```
+```text
 task-tracker-pro/
 ├── apps/
 │   ├── api/              # Backend Express + TypeScript
@@ -97,7 +97,7 @@ docker compose up -d
 
 Accede a:
 
-- **API**: <http://localhost:3000/api/health>
+- **API**: <http://localhost:3000/api/health> (devuelve el estado del API y de la conexión a PostgreSQL)
 - **Web**: <http://localhost:5173> (pantalla placeholder lista para ampliar)
 - **PostgreSQL**: localhost:5432 (credenciales en `.env`)
 
@@ -160,7 +160,7 @@ npm run smoke  # Smoke real con Docker Compose
 
 ## Conceptos clave
 
-Lo que ya viene operativo en el starter es el healthcheck del API y una pantalla placeholder en React. El resto de este apartado describe la arquitectura objetivo que irás completando durante el curso.
+Lo que ya viene operativo en el starter es el healthcheck del API, una base TypeORM mínima conectada a PostgreSQL y una pantalla placeholder en React. El resto de este apartado describe la arquitectura objetivo que irás completando durante el curso.
 
 ### 1. **JWT para autenticación**
 
@@ -170,9 +170,10 @@ Lo que ya viene operativo en el starter es el healthcheck del API y una pantalla
 
 ### 2. **TypeORM + PostgreSQL**
 
-- Migrations automáticas en startup
-- Entities: `User`, `Task`, `Comment`
-- Relaciones: User ↔ Task (1:N), Task ↔ Comment (1:N)
+- Fundación inicial ya cableada en el backend
+- Entidades base: `User` y `Task`
+- Health check con estado de base de datos: `connected` o `disconnected`
+- La evolución a más entidades y relaciones sigue siendo parte del roadmap del curso
 
 ### 3. **React + Vite**
 
